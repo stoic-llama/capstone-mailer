@@ -35,10 +35,16 @@ pipeline {
                 // Note: need --rm when docker run.. so that docker stop can kill it cleanly
                withCredentials([
                     string(credentialsId: 'website', variable: 'WEBSITE'),
+                ]) {
+                    sh 'ssh -i /var/jenkins_home/.ssh/website_deploy_rsa_key ${WEBSITE} "docker stop capstone-mailer"'
+
+                }
+
+               withCredentials([
+                    string(credentialsId: 'website', variable: 'WEBSITE'),
                     string(credentialsId: 'mailerEmail', variable: 'MAILEREMAIL'),
                     string(credentialsId: 'mailerPass', variable: 'MAILERPASS'),
                 ]) {
-                    sh 'ssh -i /var/jenkins_home/.ssh/website_deploy_rsa_key ${WEBSITE} "docker stop capstone-mailer"'
 
                     sh '''
                         ssh -i /var/jenkins_home/.ssh/website_deploy_rsa_key ${WEBSITE} "docker run -d \
