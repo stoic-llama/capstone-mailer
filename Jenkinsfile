@@ -1,7 +1,7 @@
 pipeline {
     agent any
     environment {
-        version = '1.2'
+        version = '1.3'
         containerName = 'capstone-mailer'
     }
 
